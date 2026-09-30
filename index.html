@@ -298,9 +298,10 @@ footer {
 
 </div>
 
-<div class="history">
+  <div class="history" id="history">
   <h3>🕐 Historial</h3>
   <p>Las interacciones se conservarán durante 24 horas según tu configuración.</p>
+    <div id="historyList"></div>
 </div>
 
 <footer>
@@ -459,6 +460,7 @@ status.textContent = "Listo. ¿Algo más?";
       YARVIS_HISTORY_KEY,
       JSON.stringify(historial)
     );
+    mostrarHistorial();
   }
 
   function obtenerHistorial() {
@@ -487,6 +489,23 @@ status.textContent = "Listo. ¿Algo más?";
   }
 
   limpiarHistorialAntiguo();
+    function mostrarHistorial() {
+  const historyList = document.getElementById("historyList");
+  const historial = obtenerHistorial();
+
+  historyList.innerHTML = "";
+
+  historial.forEach(elemento => {
+    const item = document.createElement("div");
+    item.textContent =
+      (elemento.tipo === "usuario" ? "Tú: " : "Yarvis: ") +
+      elemento.contenido;
+
+    historyList.appendChild(item);
+  });
+}
+
+mostrarHistorial();
   </script>
   
 </body>
