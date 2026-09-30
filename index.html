@@ -434,6 +434,56 @@ function responder(text) {
 }
 
 </script>
+  <script>
+  // ===== HISTORIAL TEMPORAL DE YARVIS =====
+  const YARVIS_HISTORY_KEY = "yarvis_history";
+  const YARVIS_HISTORY_DURATION = 24 * 60 * 60 * 1000;
 
+  function guardarEnHistorial(tipo, contenido) {
+    limpiarHistorialAntiguo();
+
+    const historial =
+      JSON.parse(localStorage.getItem(YARVIS_HISTORY_KEY) || "[]");
+
+    historial.push({
+      tipo: tipo,
+      contenido: contenido,
+      fecha: Date.now()
+    });
+
+    localStorage.setItem(
+      YARVIS_HISTORY_KEY,
+      JSON.stringify(historial)
+    );
+  }
+
+  function obtenerHistorial() {
+    limpiarHistorialAntiguo();
+
+    return JSON.parse(
+      localStorage.getItem(YARVIS_HISTORY_KEY) || "[]"
+    );
+  }
+
+  function limpiarHistorialAntiguo() {
+    const ahora = Date.now();
+
+    const historial =
+      JSON.parse(localStorage.getItem(YARVIS_HISTORY_KEY) || "[]");
+
+    const historialValido = historial.filter(
+      elemento =>
+        ahora - elemento.fecha < YARVIS_HISTORY_DURATION
+    );
+
+    localStorage.setItem(
+      YARVIS_HISTORY_KEY,
+      JSON.stringify(historialValido)
+    );
+  }
+
+  limpiarHistorialAntiguo();
+  </script>
+  
 </body>
 </html>
