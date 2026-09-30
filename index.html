@@ -414,6 +414,18 @@ function responder(text) {
       "Estoy listo para ayudarte.";
 
   }
+  else if (comando.startsWith("buscar ") || comando.startsWith("busca ")) {
+  const busqueda = comando.replace(/^buscar |^busca /, "").trim();
+
+  respuesta = "Buscando " + busqueda;
+
+  if (busqueda) {
+    window.open(
+      "https://www.google.com/search?q=" + encodeURIComponent(busqueda),
+      "_blank"
+    );
+  }
+  }
 
   question.textContent = "Yarvis";
 description.textContent = respuesta;
