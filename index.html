@@ -507,14 +507,10 @@ status.textContent = "Listo. ¿Algo más?";
 
 mostrarHistorial();
   const callCard = document.getElementById("callCard");
-
-callCard.addEventListener("click", () => {
-  const numero = prompt("¿A qué número quieres llamar?");
-
-  if (numero) {
-    window.location.href = "tel:" + numero;
-}
+  callCard.addEventListener("click", () => {
+  window.location.href = "tel:";
 });
+
   </script>
   
 </body>
