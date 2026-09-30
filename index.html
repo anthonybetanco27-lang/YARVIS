@@ -278,7 +278,7 @@ footer {
     <div class="card-text">Busca información</div>
   </div>
 
-  <div class="card">
+  <div class="card" id="alarmCard">
     <div class="card-icon">⏰</div>
     <div class="card-title">Alarmas</div>
     <div class="card-text">Crea recordatorios</div>
@@ -317,6 +317,7 @@ const orb = document.getElementById("orb");
 const status = document.getElementById("status");
 const question = document.getElementById("question");
 const description = document.getElementById("description");
+  const alarmCard = document.getElementById("alarmCard");
 
 const SpeechRecognition =
   window.SpeechRecognition ||
@@ -381,6 +382,10 @@ micButton.addEventListener("click", function() {
     recognition.start();
   }
 
+});
+
+  alarmCard.addEventListener("click", function () {
+  window.location.href = "intent:#Intent;action=android.intent.action.SHOW_ALARMS;end";
 });
 
 
