@@ -415,9 +415,13 @@ function responder(text) {
   }
 
   question.textContent = "Yarvis";
-  description.textContent = respuesta;
+description.textContent = respuesta;
 
-  status.textContent = "Listo. ¿Algo más?";
+guardarEnHistorial("usuario", text);
+guardarEnHistorial("yarvis", respuesta);
+
+status.textContent = "Listo. ¿Algo más?";
+
 
   if ("speechSynthesis" in window) {
 
