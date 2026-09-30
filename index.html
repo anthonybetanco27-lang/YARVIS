@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yarvis</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #050812;
+  color: white;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+}
+
+.app {
+  min-height: 100vh;
+  padding: 25px 18px 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  text-align: center;
+  padding: 15px 0 25px;
+}
+
+.logo {
+  font-size: 42px;
+  font-weight: bold;
+}
+
+.logo span {
+  color: #168cff;
+}
+
+.subtitle {
+  color: #9aaed0;
+  margin-top: 5px;
+  font-size: 16px;
+}
+
+.orb-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 35px 0;
+}
+
+.orb {
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, #48c7ff, #176cff 35%, #271d91 65%, #080b20);
+  border: 3px solid #258fff;
+  box-shadow:
+    0 0 25px #168cff,
+    0 0 70px rgba(38, 85, 255, .55),
+    inset 0 0 35px #65baff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: .3s;
+}
+
+.orb.listening {
+  animation: pulse 1s infinite alternate;
+  border-color: #a855ff;
+  box-shadow:
+    0 0 35px #8b5cff,
+    0 0 90px rgba(139, 92, 255, .7);
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.08);
+  }
+}
+
+.wave {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.wave div {
+  width: 7px;
+  height: 35px;
+  border-radius: 10px;
+  background: white;
+  animation: wave 1s infinite ease-in-out;
+}
+
+.wave div:nth-child(2) {
+  animation-delay: .1s;
+  height: 55px;
+}
+
+.wave div:nth-child(3) {
+  animation-delay: .2s;
+  height: 75px;
+}
+
+.wave div:nth-child(4) {
+  animation-delay: .3s;
+  height: 55px;
+}
+
+.wave div:nth-child(5) {
+  animation-delay: .4s;
+  height: 35px;
+}
+
+@keyframes wave {
+  50% {
+    transform: scaleY(.4);
+  }
+}
+
+.question {
+  text-align: center;
+  font-size: 27px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.description {
+  text-align: center;
+  color: #9db1d5;
+  margin-bottom: 25px;
+}
+
+.mic-button {
+  width: 75px;
+  height: 75px;
+  border: none;
+  border-radius: 50%;
+  margin: 0 auto 30px;
+  background: linear-gradient(135deg, #168cff, #663cff);
+  color: white;
+  font-size: 30px;
+  box-shadow: 0 0 30px rgba(39, 126, 255, .6);
+  cursor: pointer;
+}
+
+.mic-button:active {
+  transform: scale(.92);
+}
+
+.status {
+  text-align: center;
+  color: #79baff;
+  min-height: 25px;
+  margin-bottom: 20px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.card {
+  background: #0d1424;
+  border: 1px solid #1b3155;
+  border-radius: 18px;
+  padding: 20px 15px;
+  min-height: 105px;
+}
+
+.card-icon {
+  font-size: 27px;
+  margin-bottom: 12px;
+}
+
+.card-title {
+  font-size: 16px;
+}
+
+.card-text {
+  color: #8498bb;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.history {
+  margin-top: 18px;
+  background: #0d1424;
+  border: 1px solid #1b3155;
+  border-radius: 18px;
+  padding: 18px;
+}
+
+.history h3 {
+  margin-bottom: 8px;
+}
+
+.history p {
+  color: #8498bb;
+  font-size: 14px;
+}
+
+footer {
+  text-align: center;
+  color: #607394;
+  margin-top: auto;
+  padding-top: 30px;
+  font-size: 12px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+  <div class="logo">Yar<span>vis</span></div>
+  <div class="subtitle">Tu asistente, siempre contigo</div>
+</header>
+
+<div class="orb-container">
+  <div class="orb" id="orb">
+    <div class="wave">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+</div>
+
+<div class="question" id="question">
+  ¿En qué puedo ayudarte?
+</div>
+
+<div class="description" id="description">
+  Solo habla, yo me encargo.
+</div>
+
+<button class="mic-button" id="micButton">
+  🎙️
+</button>
+
+<div class="status" id="status">
+  Toca el micrófono para hablar con Yarvis
+</div>
+
+<div class="cards">
+
+  <div class="card">
+    <div class="card-icon">📞</div>
+    <div class="card-title">Llamar</div>
+    <div class="card-text">Realiza llamadas</div>
+  </div>
+
+  <div class="card">
+    <div class="card-icon">💬</div>
+    <div class="card-title">Mensajes</div>
+    <div class="card-text">Envía mensajes</div>
+  </div>
+
+  <div class="card">
+    <div class="card-icon">🔎</div>
+    <div class="card-title">Buscar</div>
+    <div class="card-text">Busca información</div>
+  </div>
+
+  <div class="card">
+    <div class="card-icon">⏰</div>
+    <div class="card-title">Alarmas</div>
+    <div class="card-text">Crea recordatorios</div>
+  </div>
+
+  <div class="card">
+    <div class="card-icon">📱</div>
+    <div class="card-title">Aplicaciones</div>
+    <div class="card-text">Abre aplicaciones</div>
+  </div>
+
+  <div class="card">
+    <div class="card-icon">⚙️</div>
+    <div class="card-title">Configuración</div>
+    <div class="card-text">Personaliza Yarvis</div>
+  </div>
+
+</div>
+
+<div class="history">
+  <h3>🕐 Historial</h3>
+  <p>Las interacciones se conservarán durante 24 horas según tu configuración.</p>
+</div>
+
+<footer>
+  Yarvis v0.1 · Prototipo
+</footer>
+
+</div>
+
+<script>
+
+const micButton = document.getElementById("micButton");
+const orb = document.getElementById("orb");
+const status = document.getElementById("status");
+const question = document.getElementById("question");
+const description = document.getElementById("description");
+
+const SpeechRecognition =
+  window.SpeechRecognition ||
+  window.webkitSpeechRecognition;
+
+let recognition;
+
+if (SpeechRecognition) {
+
+  recognition = new SpeechRecognition();
+
+  recognition.lang = "es-ES";
+  recognition.continuous = false;
+  recognition.interimResults = false;
+
+  recognition.onstart = function() {
+
+    orb.classList.add("listening");
+
+    question.textContent = "Te estoy escuchando...";
+    description.textContent = "Habla con Yarvis.";
+
+    status.textContent = "Yarvis está escuchando...";
+  };
+
+  recognition.onresult = function(event) {
+
+    const text =
+      event.results[0][0].transcript;
+
+    question.textContent = "Escuché:";
+    description.textContent = '"' + text + '"';
+
+    status.textContent = "Yarvis está procesando...";
+
+    responder(text);
+  };
+
+  recognition.onerror = function() {
+
+    orb.classList.remove("listening");
+
+    status.textContent =
+      "No pude entenderte. Inténtalo nuevamente.";
+  };
+
+  recognition.onend = function() {
+
+    orb.classList.remove("listening");
+  };
+
+} else {
+
+  status.textContent =
+    "Tu navegador no permite reconocimiento de voz.";
+}
+
+
+micButton.addEventListener("click", function() {
+
+  if (recognition) {
+    recognition.start();
+  }
+
+});
+
+
+function responder(text) {
+
+  let respuesta =
+    "Entendí: " + text;
+
+  const comando =
+    text.toLowerCase();
+
+  if (comando.includes("qué puedes hacer") ||
+      comando.includes("que puedes hacer")) {
+
+    respuesta =
+      "Puedo ayudarte a controlar funciones de tu teléfono y realizar diferentes tareas.";
+
+  }
+
+  else if (comando.includes("hola")) {
+
+    respuesta =
+      "Hola. Soy Yarvis. ¿En qué puedo ayudarte?";
+
+  }
+
+  else if (comando.includes("cómo estás") ||
+           comando.includes("como estas")) {
+
+    respuesta =
+      "Estoy listo para ayudarte.";
+
+  }
+
+  question.textContent = "Yarvis";
+  description.textContent = respuesta;
+
+  status.textContent = "Listo. ¿Algo más?";
+
+  if ("speechSynthesis" in window) {
+
+    const voz =
+      new SpeechSynthesisUtterance(respuesta);
+
+    voz.lang = "es-ES";
+    voz.rate = 1;
+    voz.pitch = 1;
+
+    window.speechSynthesis.speak(voz);
+  }
+
+}
+
+</script>
+
+</body>
+</html>
